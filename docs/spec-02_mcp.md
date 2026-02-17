@@ -1,0 +1,2 @@
+- 完成したアプリをMCPにする
+- MCPは Streamable HTTP にする
