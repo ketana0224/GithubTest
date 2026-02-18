@@ -1,0 +1,2 @@
+- 完成したMCPを Azure Functionにデプロイする
+- Function App名は func-ketana-ext-python-mcp

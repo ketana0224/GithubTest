@@ -7,14 +7,17 @@ from app import hybrid_search
 
 
 def build_mcp_server() -> FastMCP:
-    host = os.getenv("MCP_HOST", "127.0.0.1")
+    default_host = os.getenv("WEBSITE_HOSTNAME", "127.0.0.1")
+    host = os.getenv("MCP_HOST", default_host)
     port = int(os.getenv("MCP_PORT", "8000"))
     streamable_http_path = os.getenv("MCP_PATH", "/mcp")
+    stateless_http = os.getenv("MCP_STATELESS_HTTP", "true").lower() in {"1", "true", "yes", "on"}
     return FastMCP(
         "azure-hybrid-search",
         host=host,
         port=port,
         streamable_http_path=streamable_http_path,
+        stateless_http=stateless_http,
     )
 
 

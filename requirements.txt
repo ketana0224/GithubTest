@@ -3,3 +3,4 @@ azure-core>=1.30.0
 python-dotenv>=1.0.1
 openai>=1.55.0
 mcp>=1.13.0
+azure-functions>=1.21.0
