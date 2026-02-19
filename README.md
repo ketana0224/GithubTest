@@ -133,6 +133,22 @@ Repository Settings > Secrets and variables > Actions に以下を設定して�
 上記 3 つは `azure/login@v2` の OIDC ログインに使います。
 （Federated Credential が設定済みの Service Principal/App Registration が必要です）
 
+### 必須 RBAC（GitHub Actions 用 Service Principal）
+
+GitHub Actions からのデプロイを通すために、Service Principal（App Registration）へ最低限以下を付与してください。
+
+- Resource Group（Function App がある RG）
+	- `Contributor`
+- Storage Account（Function App が参照する Storage）
+	- `Storage Blob Data Contributor`
+
+環境によっては追加で以下が必要です。
+
+- Storage Account
+	- `Storage Queue Data Contributor`
+	- `Storage Table Data Contributor`
+	- `Storage Blob Data Owner`（必要時のみ）
+
 ### GitHub Actions デプロイ時の注意（Storage ネットワーク）
 
 GitHub-hosted runner で `Azure/functions-action` を使ってデプロイする場合、
