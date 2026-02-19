@@ -133,6 +133,24 @@ Repository Settings > Secrets and variables > Actions に以下を設定して�
 上記 3 つは `azure/login@v2` の OIDC ログインに使います。
 （Federated Credential が設定済みの Service Principal/App Registration が必要です）
 
+### GitHub Actions デプロイ時の注意（Storage ネットワーク）
+
+GitHub-hosted runner で `Azure/functions-action` を使ってデプロイする場合、
+Function App が参照する Storage Account のネットワーク設定によってはデプロイが失敗します。
+
+- `PublicNetworkAccess = Disabled` の場合、`oneDeploy / PublishContent` が失敗することがあります
+- エラー例: `Failed to use ... as OneDeploy content`
+
+回避するには、Storage Account 側で以下を満たしてください。
+
+- `PublicNetworkAccess = Enabled`（GitHub-hosted runner 利用時）
+- GitHub Actions 用 Service Principal に適切な RBAC を付与
+	- Resource Group: `Contributor`
+	- Storage Account: `Storage Blob Data Contributor`（必要に応じて Queue/Table も）
+
+セキュアに閉域運用したい場合は、`PublicNetworkAccess = Disabled` のまま
+`self-hosted runner + VNet/Private Endpoint` 構成に切り替えてください。
+
 デプロイ後の URL 例:
 
 - `https://<YOUR_FUNCTION_APP_NAME>.azurewebsites.net/mcp`
