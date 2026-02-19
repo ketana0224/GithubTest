@@ -114,6 +114,25 @@ python mcp_server.py
 func azure functionapp publish <YOUR_FUNCTION_APP_NAME> --python
 ```
 
+## GitHub Actions で CI/CD
+
+このリポジトリには GitHub Actions workflow が含まれています。
+
+- workflow: `.github/workflows/main_func-ketana-ext-python-mcp.yml`
+- `pull_request`（`main` 向け）: CI のみ実行（依存関係インストール＋構文チェック）
+- `push`（`main`）: CI 成功後に Azure Functions へ自動デプロイ
+
+### GitHub Secrets（必須）
+
+Repository Settings > Secrets and variables > Actions に以下を設定してください。
+
+- `AZUREAPPSERVICE_CLIENTID_9BAE7E1EB8E54CA0AA27BBDD81AF6DD1`
+- `AZUREAPPSERVICE_TENANTID_DEB6344B76F34571A8855EE183600A26`
+- `AZUREAPPSERVICE_SUBSCRIPTIONID_F452193695A9463D9248339D6EC15FB4`
+
+上記 3 つは `azure/login@v2` の OIDC ログインに使います。
+（Federated Credential が設定済みの Service Principal/App Registration が必要です）
+
 デプロイ後の URL 例:
 
 - `https://<YOUR_FUNCTION_APP_NAME>.azurewebsites.net/mcp`
